@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#f8f7f3">
+    <meta name="description" content="Test MiniRouter, an experimental local model that recommends an AI request route or abstains.">
+    <title>MiniRouter — request routing lab</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="wordmark" href="#top" aria-label="MiniRouter home"><span class="mark" aria-hidden="true">m</span> minirouter<span class="wordmark-period">.</span></a>
+      <div class="topbar-meta"><span class="status-dot" aria-hidden="true"></span><span id="model-state">Local model · connecting</span></div>
+    </header>
+
+    <main id="top">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Request routing lab <span>·</span> V3</p>
+        <h1 id="page-title">Send work to<br><em>the right place.</em></h1>
+        <p class="intro-copy">Try an experimental compact model that recommends one next route, or steps aside when it is unsure.</p>
+        <div class="experiment-note" role="note">
+          <span class="note-icon" aria-hidden="true">!</span>
+          <p><strong>Experimental model.</strong> The internal evaluation missed its supporting-capability target, so treat those estimates as unreliable. Review every recommendation before acting.</p>
+        </div>
+      </section>
+
+      <div class="workspace">
+        <section class="panel input-panel" aria-labelledby="request-heading">
+          <div class="panel-heading">
+            <div><p class="eyebrow">01 <span>·</span> Input</p><h2 id="request-heading">Your request</h2></div>
+            <span class="local-tag"><span aria-hidden="true">⌂</span> stays on this device</span>
+          </div>
+
+          <form id="route-form" novalidate>
+            <label class="field-label" for="request-text">Prompt <span class="optional">required</span></label>
+            <textarea id="request-text" name="text" rows="6" placeholder="What do you need done?" required aria-describedby="prompt-help"></textarea>
+            <div class="field-foot"><span id="prompt-help">English requests · up to 512 tokens total</span><span id="char-count">0 characters</span></div>
+
+            <fieldset class="sample-fieldset">
+              <legend>Try a sample</legend>
+              <div class="sample-list" role="group" aria-label="Example requests">
+                <button class="sample-chip" type="button" data-sample="coding">Fix code</button>
+                <button class="sample-chip" type="button" data-sample="reasoning">Solve a problem</button>
+                <button class="sample-chip" type="button" data-sample="search">Find current info</button>
+                <button class="sample-chip" type="button" data-sample="database">Read a database</button>
+                <button class="sample-chip" type="button" data-sample="calculator">Calculate</button>
+                <button class="sample-chip sample-chip-muted" type="button" data-sample="unsupported">Rewrite a note</button>
+              </div>
+            </fieldset>
+
+            <details class="advanced-options">
+              <summary><span>Optional context &amp; available tools</span><span class="summary-hint">Customize</span></summary>
+              <div class="advanced-body">
+                <label class="field-label" for="context-text">Context <span class="optional">one optional note</span></label>
+                <textarea id="context-text" name="context" rows="3" placeholder="Relevant history, a search target, or an authorized database schema"></textarea>
+                <fieldset class="availability-options">
+                  <legend>Destinations available for this request</legend>
+                  <p class="field-hint">An unavailable destination will never be recommended.</p>
+                  <div class="availability-grid">
+                    <label class="check-option"><input type="checkbox" name="capability" value="coding" checked><span>Coding</span></label>
+                    <label class="check-option"><input type="checkbox" name="capability" value="reasoning" checked><span>Reasoning</span></label>
+                    <label class="check-option"><input type="checkbox" name="capability" value="search" checked><span>Search</span></label>
+                    <label class="check-option"><input type="checkbox" name="capability" value="database" checked><span>Database</span></label>
+                  </div>
+                  <label class="check-option calculator-option"><input id="calculator-enabled" type="checkbox" checked><span><strong>Typed calculator handler</strong><small>Allows the narrow <code>calc:</code> grammar for a no-LLM result.</small></span></label>
+                </fieldset>
+              </div>
+            </details>
+
+            <div class="form-actions">
+              <button class="button button-primary" id="submit-button" type="submit"><span>Get a recommendation</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+              <button class="button button-reset" id="reset-button" type="reset">Clear</button>
+            </div>
+            <p id="form-error" class="form-error" role="alert" hidden></p>
+          </form>
+        </section>
+
+        <section class="panel output-panel" aria-labelledby="result-heading">
+          <div class="panel-heading result-heading">
+            <div><p class="eyebrow">02 <span>·</span> Output</p><h2 id="result-heading">Routing decision</h2></div>
+            <span id="decision-status" class="decision-status status-ready">Ready</span>
+          </div>
+          <div id="result-live" aria-live="polite" aria-atomic="false" aria-busy="false">
+            <div id="empty-state" class="empty-state">
+              <div class="empty-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+              <h3>Waiting for a request</h3>
+              <p>Your recommendation and route scores will appear here.</p>
+            </div>
+            <div id="loading-state" class="loading-state" hidden>
+              <span class="spinner" aria-hidden="true"></span><div><h3>Reading your request</h3><p>Running the local model…</p></div>
+            </div>
+            <article id="success-state" class="decision" hidden>
+              <p id="decision-kicker" class="decision-kicker">Recommended next route</p>
+              <div class="decision-main"><h3 id="route-name">—</h3><span id="confidence-badge" class="confidence-badge"></span></div>
+              <p id="decision-explanation" class="decision-explanation"></p>
+              <div id="decision-details" class="decision-details"></div>
+
+              <div class="score-section">
+                <div class="score-title-row"><h4>Primary route scores</h4><span>model outputs</span></div>
+                <div id="primary-scores" class="score-list"></div>
+              </div>
+
+              <details class="capability-details">
+                <summary><span>Supporting capability estimates</span><span class="unreliable-label">unreliable</span></summary>
+                <p>These auxiliary scores missed the internal evaluation target. Do not use them as verified tool requirements.</p>
+                <div id="capability-scores" class="score-list"></div>
+              </details>
+
+              <details class="json-details">
+                <summary><span>Response JSON</span><span class="summary-hint">Inspect</span></summary>
+                <div class="json-actions"><button class="button button-copy" id="copy-json" type="button">Copy JSON</button></div>
+                <pre id="json-output" tabindex="0" aria-label="Raw router response JSON"></pre>
+                <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+              </details>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <section class="model-details" aria-labelledby="model-details-heading">
+        <details>
+          <summary><span id="model-details-heading">Model &amp; limits</span><span class="summary-hint">Read notes</span></summary>
+          <div class="model-grid">
+            <div><span class="model-label">Model</span><strong id="model-version">Experimental V3</strong></div>
+            <div><span class="model-label">Inference bundle</span><strong id="bundle-size">Loading…</strong></div>
+            <div><span class="model-label">Learned parameters</span><strong id="parameter-count">Loading…</strong></div>
+            <div><span class="model-label">Calibration</span><strong id="calibration-state">Loading…</strong></div>
+          </div>
+          <ul class="limit-list">
+            <li>The model recommends a next route. It does not run a model, perform live search, or access a database.</li>
+            <li>“No LLM” is eligible only for the trusted, narrow <code>calc:</code> handler when enabled.</li>
+            <li>English only, 512 total tokens, with up to four history turns. Other requests may be shortened or abstained.</li>
+            <li>Internal main-set primary accuracy was 99%; supporting-capability macro F1 was 72.5%, below its 90% target. The paired final report is incomplete; this is not production readiness, proven savings, or evidence of superiority.</li>
+            <li>Do not enter sensitive information. Text is sent to this local preview process for inference.</li>
+          </ul>
+        </details>
+      </section>
+
+      <footer class="page-footer">
+        <span>MiniRouter <span class="footer-separator">/</span> local experiment</span>
+        <span>Recommendations only · review before routing</span>
+      </footer>
+    </main>
+  </body>
+</html>

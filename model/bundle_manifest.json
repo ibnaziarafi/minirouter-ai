@@ -1,0 +1,87 @@
+{
+  "bundle_limit_bytes": 15000000,
+  "calibrated": true,
+  "files": [
+    {
+      "bytes": 1123,
+      "path": "ETTIN_LICENSE.txt",
+      "sha256": "b866194b77a237d30106629df409eeafea233c019373e0b902332b4c3d517cd5"
+    },
+    {
+      "bytes": 4484,
+      "path": "MODEL_CARD.md",
+      "sha256": "c90cf4918cc7ec829cdbc42601620d34b598fa5ccecbfb929adfa8ce135b77c3"
+    },
+    {
+      "bytes": 2788,
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "c108880931ec3a802cbbbaca3b0c61876670f9160a84f1f3f21632b11a1ea9e7"
+    },
+    {
+      "bytes": 40053,
+      "path": "UPSTREAM_README.md",
+      "sha256": "46e577ac89860dd79e4446396f9692be2c1da35d0fe289b75b066c59e6dcef2a"
+    },
+    {
+      "bytes": 2931,
+      "path": "calibration.json",
+      "sha256": "69ed4ff3ef0b2485ef5426d9103cb9d7657ff60ebf5a032206c7a5b3ef09ea76"
+    },
+    {
+      "bytes": 1238,
+      "path": "config.json",
+      "sha256": "7c1465b38440246b9147b4ce3eeafb17077d16537755e30c37a9e7a56fe53cdf"
+    },
+    {
+      "bytes": 11232607,
+      "path": "model.onnx",
+      "sha256": "6c369081c5b9a58b10c944b394c4139cf6309fb334c6489be9ef98e3a07f545f"
+    },
+    {
+      "bytes": 243,
+      "path": "policy.json",
+      "sha256": "35e4662e46631c1662fc2f50f798b4bac37f8c31ed179e72f09f32ee48243f54"
+    },
+    {
+      "bytes": 1006,
+      "path": "router_config.json",
+      "sha256": "9ae4c8feadb3578530196bf104df36046d70caa486ff40b4a26a429d288b6b47"
+    },
+    {
+      "bytes": 694,
+      "path": "special_tokens_map.json",
+      "sha256": "ea97ecdbcc73713039d8d64dbb05e3689495c96657fbd9a18f5bed381be81049"
+    },
+    {
+      "bytes": 2132967,
+      "path": "tokenizer.json",
+      "sha256": "9fd55248d51d33976b324fc11592e28071da7d41e0e9401dfb7082e30574b7b1"
+    },
+    {
+      "bytes": 20810,
+      "path": "tokenizer_config.json",
+      "sha256": "3cd2017ff46d0a527e5d39cae39272eccfa1f19bb9f89b05d166aab2e38354e2"
+    },
+    {
+      "bytes": 1288,
+      "path": "upstream_manifest.json",
+      "sha256": "a72851450a693ac847810306c580b856b0774795c56dbe13e2141e1b50fe9536"
+    }
+  ],
+  "parameter_counts": {
+    "backbone": 16797440,
+    "excluded_upstream_tensors": [
+      "head.dense.weight",
+      "head.norm.weight",
+      "decoder.weight",
+      "decoder.bias"
+    ],
+    "head_seed": 1729,
+    "heads": 34057,
+    "total": 16831497,
+    "trainable": 16831497,
+    "trained_router": true,
+    "unique_named_tensors": 50
+  },
+  "release_ready": false
+}

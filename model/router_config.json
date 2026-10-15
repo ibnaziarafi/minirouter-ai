@@ -1,0 +1,36 @@
+{
+  "trained_router": true,
+  "checkpoint_sha256": "98cea9ae8082a39f409bfc6e478032a423610fce5269334fb6da50607ee4b95a",
+  "max_tokens": 512,
+  "request_pooling": "masked_mean",
+  "primary_outputs": 5,
+  "capability_outputs": 4,
+  "confidence_calibration": "included",
+  "release_ready": false,
+  "quantization": "INT4 block128 embedding / INT8 per-channel dynamic body / FP32 heads",
+  "execution_provider_verified": [
+    "CPUExecutionProvider"
+  ],
+  "parameter_counts": {
+    "backbone": 16797440,
+    "heads": 34057,
+    "total": 16831497,
+    "trainable": 16831497,
+    "unique_named_tensors": 50,
+    "excluded_upstream_tensors": [
+      "head.dense.weight",
+      "head.norm.weight",
+      "decoder.weight",
+      "decoder.bias"
+    ],
+    "head_seed": 1729,
+    "trained_router": true
+  },
+  "quantized_probe_max_abs_logit_error": 1.9941627979278564,
+  "quantized_probe_primary_argmax_disagreements": 0,
+  "versions": {
+    "torch": "2.14.1",
+    "onnx": "1.23.2",
+    "onnxruntime": "1.31.0"
+  }
+}

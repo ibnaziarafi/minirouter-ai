@@ -1,0 +1,107 @@
+{
+  "status": "calibrated",
+  "scope": "internal_bootstrap_only",
+  "primary_temperature": 2.4721913657008985,
+  "capability_scales": [
+    1.8002738534945386,
+    1.0540404377115018,
+    1.1060710779602705,
+    2.409704806477057
+  ],
+  "capability_biases": [
+    4.9320925370270325,
+    -0.03317406115148848,
+    -1.2821022579161876,
+    -13.963971715661117
+  ],
+  "data_sha256": "ccf654caa0ee09b0e0444b28a235431ce33b7e74406862ddc033b07e45ea1d1c",
+  "negative_data_sha256": "2ece82cdd6f307b4cec5def61e17c7df65ad1b44d8573d8785cc559d3df62653",
+  "model_sha256": "6c369081c5b9a58b10c944b394c4139cf6309fb334c6489be9ef98e3a07f545f",
+  "checkpoint_sha256": "98cea9ae8082a39f409bfc6e478032a423610fce5269334fb6da50607ee4b95a",
+  "rows": 359,
+  "negative_rows": 80,
+  "skipped_overlength": [],
+  "class_counts": {
+    "coding": 80,
+    "reasoning": 145,
+    "search": 29,
+    "database": 60,
+    "no_llm": 45
+  },
+  "capability_fits": [
+    {
+      "capability": "coding",
+      "status": "platt_internal",
+      "positive": 81,
+      "negative": 358,
+      "scale": 1.8002738534945386,
+      "bias": 4.9320925370270325
+    },
+    {
+      "capability": "reasoning",
+      "status": "platt_internal",
+      "positive": 145,
+      "negative": 294,
+      "scale": 1.0540404377115018,
+      "bias": -0.03317406115148848
+    },
+    {
+      "capability": "search",
+      "status": "platt_internal",
+      "positive": 29,
+      "negative": 410,
+      "scale": 1.1060710779602705,
+      "bias": -1.2821022579161876
+    },
+    {
+      "capability": "database",
+      "status": "platt_internal",
+      "positive": 60,
+      "negative": 379,
+      "scale": 2.409704806477057,
+      "bias": -13.963971715661117
+    }
+  ],
+  "fit_contract": {
+    "temperature": "positive labeled only",
+    "capabilities": "positive plus known-zero negative",
+    "policy": "positive coverage/risk plus negative false-acceptance"
+  },
+  "limitations": [
+    "internal labels are not representative traffic",
+    "catalog/template variants are not independent population samples",
+    "no population assurance or savings claim",
+    "locked test remains unseen"
+  ],
+  "metrics": {
+    "before": {
+      "nll": 0.5511333025588369,
+      "brier": 0.29146797252452006,
+      "ece": 0.15051018007842518,
+      "accuracy": 0.8356545961002786
+    },
+    "after": {
+      "nll": 0.3134260789960641,
+      "brier": 0.20514638264086335,
+      "ece": 0.1359730952748541,
+      "accuracy": 0.8356545961002786
+    },
+    "operating_point": {
+      "min_confidence": 0.4,
+      "min_margin": 0,
+      "coverage": 0.8356545961002786,
+      "selective_error": 0.0,
+      "selected": 300,
+      "no_llm_selected": 45,
+      "no_llm_precision": 1.0,
+      "no_llm_precision_95ci": [
+        0.9212948995931569,
+        1.0
+      ],
+      "negative_accepted": 0,
+      "negative_rows": 80,
+      "negative_false_acceptance": 0.0
+    },
+    "all_predeclared_constraints_met": true
+  }
+}

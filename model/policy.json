@@ -1,0 +1,10 @@
+{
+  "min_confidence": 0.4,
+  "min_margin": 0,
+  "capability_threshold": 0.5,
+  "max_tokens": 512,
+  "thresholds_calibrated": true,
+  "scope": "internal_bootstrap_only",
+  "coverage_target_met": true,
+  "negative_acceptance_target_met": true
+}
